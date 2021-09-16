@@ -2,6 +2,8 @@ const User = require("../../models/user");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const shortid = require("shortid");
+const JWT_SECRET = "MUNE" ;
+
 
 exports.signup = (req, res) => {
   User.findOne({ email: req.body.email }).exec((error, user) => {
@@ -56,7 +58,7 @@ exports.signin = (req, res) => {
       ) {
         const token = jwt.sign(
           { _id: user._id, role: user.role },
-          process.env.JWT_SECRET,
+          "mune",
           { expiresIn: "1d" }
         );
         const { _id, firstName, lastName, email, role, fullName } = user;
