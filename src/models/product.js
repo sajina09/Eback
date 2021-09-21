@@ -23,7 +23,17 @@ const productSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
-    offer: { type: Number },
+    manufacture: {
+        type: String,
+        required: true,
+        trim: true
+    },
+    expiry: {
+        type: String,
+        required: true,
+        trim: true
+    },
+    offer : { type: Number },
     productPictures: [
         { img: { type: String } }
     ],

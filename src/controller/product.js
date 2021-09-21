@@ -6,9 +6,8 @@ const Category = require("../models/category");
 exports.createProduct = (req, res) => {
   //res.status(200).json( { file: req.files, body: req.body } );
 
-  const { name, price, description, category, quantity, createdBy } = req.body;
+  const { name, price, description, category, quantity,manufacture, expiry, createdBy } = req.body;
   let productPictures = [];
-   console.log("****",req.files);
   if (req.files.length > 0) {
     productPictures = req.files.map((file) => {
       return { img: file.filename };
@@ -22,6 +21,8 @@ exports.createProduct = (req, res) => {
     quantity,
     description,
     productPictures,
+    manufacture, 
+    expiry,
     category,
     createdBy: req.user._id,
   });
@@ -54,25 +55,25 @@ exports.getProductsBySlug = (req, res) => {
               res.status(200).json({
                 products,
                 priceRange: {
-                  under5k: 5000,
+                  under5: 500,
+                  under10: 1000,
+                  under3k: 3000,
                   under10k: 10000,
-                  under15k: 15000,
-                  under20k: 20000,
-                  under30k: 30000,
+                  under5k: 5000,
                 },
                 productsByPrice: {
-                  under5k: products.filter((product) => product.price <= 5000),
+                  under5: products.filter((product) => product.price <= 500),
+                  under10: products.filter(
+                    (product) => product.price > 500 && product.price <= 1000
+                  ),
+                  under3k: products.filter(
+                    (product) => product.price > 10000 && product.price <= 3000
+                  ),
                   under10k: products.filter(
-                    (product) => product.price > 5000 && product.price <= 10000
+                    (product) => product.price > 3000 && product.price <= 10000
                   ),
-                  under15k: products.filter(
-                    (product) => product.price > 10000 && product.price <= 15000
-                  ),
-                  under20k: products.filter(
-                    (product) => product.price > 15000 && product.price <= 20000
-                  ),
-                  under30k: products.filter(
-                    (product) => product.price > 20000 && product.price <= 30000
+                  under5k: products.filter(
+                    (product) => product.price > 3000 && product.price <= 5000
                   ),
                 },
               });
@@ -116,7 +117,7 @@ exports.deleteProductById = (req, res) => {
 
 exports.getProducts = async (req, res) => {
   const products = await Product.find({ createdBy: req.user._id })
-    .select("_id name price quantity slug description productPictures category")
+    .select("_id name price quantity slug description manufacture expiry productPictures category")
     .populate({ path: "category", select: "_id name" })
     .exec();
 
