@@ -33,5 +33,13 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.4"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sajina09/Eback.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sajina09/Eback/issues"
+  },
+  "homepage": "https://github.com/sajina09/Eback#readme"
 }

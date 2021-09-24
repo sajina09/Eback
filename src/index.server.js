@@ -24,7 +24,7 @@ env.config();
 //mongodb+srv://root:<password>@cluster0.8pl1w.mongodb.net/<dbname>?retryWrites=true&w=majority
 mongoose
   .connect(
-    'mongodb://localhost/agro',
+    'mongodb://localhost:27017/test',
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,
@@ -50,6 +50,14 @@ app.use("/api", addressRoutes);
 app.use("/api", orderRoutes);
 app.use("/api", adminOrderRoute);
 
+// app.get('/users',(req,res,next)=>{
+//   const searchedField = req.query.name;
+//   User.find({name:{$regrex: searchedField,$options: '$i'}})
+//       .then(data=>{
+//         res.send(data);
+
+//       })
+// })
 const port = process.env.PORT||9000
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

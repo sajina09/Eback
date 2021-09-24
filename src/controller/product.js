@@ -6,7 +6,7 @@ const Category = require("../models/category");
 exports.createProduct = (req, res) => {
   //res.status(200).json( { file: req.files, body: req.body } );
 
-  const { name, price, description, category, quantity, createdBy } = req.body;
+  const { name, price, description, category, quantity, createdBy,location } = req.body;
   let productPictures = [];
    console.log("****",req.files);
   if (req.files.length > 0) {
@@ -23,6 +23,7 @@ exports.createProduct = (req, res) => {
     description,
     productPictures,
     category,
+    location,
     createdBy: req.user._id,
   });
 
@@ -116,7 +117,7 @@ exports.deleteProductById = (req, res) => {
 
 exports.getProducts = async (req, res) => {
   const products = await Product.find({ createdBy: req.user._id })
-    .select("_id name price quantity slug description productPictures category")
+    .select("_id name price quantity slug description productPictures category location")
     .populate({ path: "category", select: "_id name" })
     .exec();
 
