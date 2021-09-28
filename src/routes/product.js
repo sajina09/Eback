@@ -16,6 +16,7 @@ const multer = require("multer");
 const router = express.Router();
 const shortid = require("shortid");
 const path = require("path");
+const product = require("../models/product");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -38,6 +39,16 @@ router.post(
 router.get("/products/:slug", getProductsBySlug);
 //router.get('/category/getcategory', getCategories);
 router.get("/product/:productId", getProductDetailsById);
+
+//search field
+router.get('/products',(req,res,next)=>{
+    const searchedField = req.query.name;
+    product.find({name:{$regrex: searchedField,$options: '$i'}})
+        .then(data=>{
+        res.send(data);
+  
+    })
+})
 router.delete(
   "/product/deleteProductById",
   requireSignin,
